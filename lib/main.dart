@@ -20,7 +20,7 @@ final BoxShadow boxShadow = BoxShadow(
 TextStyle commonTextStyle(
     {FontWeight? fontWeight, double? fontSize, Color? textColor}) {
   return TextStyle(
-    color: textColor ?? Colors.black,
+    color: textColor ?? Colors.white,
     fontSize: deviceAverageSize * (fontSize ?? textSizeRegular),
     decoration: TextDecoration.none,
     fontWeight: fontWeight ?? FontWeight.normal,

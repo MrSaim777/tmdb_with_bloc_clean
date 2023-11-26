@@ -7,31 +7,35 @@ class BackgroundContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Container(
+      color: Colors.black,
+      child: Stack(
         children: [
           Align(
-            alignment: const AlignmentDirectional(0, -0.1),
+            alignment: const AlignmentDirectional(1, 1),
             child: Container(
               height: 300,
               width: 200,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.blue),
+                  shape: BoxShape.circle, color: Colors.red),
             ),
           ),
           Align(
-            alignment: const AlignmentDirectional(0, -1),
+            alignment: const AlignmentDirectional(-1, -1),
             child: Container(
               height: 200,
-              width: double.infinity,
-              decoration: const BoxDecoration(color: Colors.red),
+              width: 300,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.red),
             ),
           ),
           // Align(
-          //   alignment: const AlignmentDirectional(0, 1),
+          //   alignment: const AlignmentDirectional(0, -0.1),
           //   child: Container(
           //     height: 300,
-          //     width: double.infinity,
-          //     decoration: const BoxDecoration(color: Colors.red),
+          //     width: 200,
+          //     decoration: const BoxDecoration(
+          //         shape: BoxShape.circle, color: Colors.red),
           //   ),
           // ),
           BackdropFilter(
@@ -41,6 +45,7 @@ class BackgroundContainer extends StatelessWidget {
             ),
           ),
         ],
-      );
+      ),
+    );
   }
 }

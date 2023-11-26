@@ -20,8 +20,6 @@ class _BottomNavState extends State<BottomNav> {
     return Scaffold(
       body: Stack(
         children: [
-          //
-          const BackgroundContainer(),
           selectednavButton == 0
               ? const HomeScreen()
               : selectednavButton == 1
@@ -79,7 +77,7 @@ class _BottomNavState extends State<BottomNav> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

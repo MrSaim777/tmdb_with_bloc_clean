@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:tmdb_ui/background_container.dart';
 import 'package:tmdb_ui/main.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,18 +11,23 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: ListView.builder(
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return const MovieCard(
-                image:
-                    'https://th.bing.com/th/id/OIP.xg6XZQvrc-1pZBoEh5sgagHaKl?rs=1&pid=ImgDetMain',
-                releaseDate: 'Nov 23, 2012',
-                title: 'Harry potter and the snack',
-                overview: 'Harry potter and the snack Harry potter and tk',
-                rating: 0.0,
-                isFavorite: false);
-          },
+        body: Stack(
+          children: [
+            const BackgroundContainer(),
+            ListView.builder(
+              itemCount: 20,
+              itemBuilder: (context, index) {
+                return const MovieCard(
+                    image:
+                        'https://th.bing.com/th/id/OIP.xg6XZQvrc-1pZBoEh5sgagHaKl?rs=1&pid=ImgDetMain',
+                    releaseDate: 'Nov 23, 2012',
+                    title: 'Harry potter and the snack',
+                    overview: 'Harry potter and the snack Harry potter and tk',
+                    rating: 0.0,
+                    isFavorite: false);
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -46,72 +54,79 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: deviceWidth / 40, vertical: deviceHeight / 120),
-      height: deviceHeight / 6,
-      decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(.1),
-          borderRadius: BorderRadius.circular(10)),
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: deviceWidth / 50, vertical: deviceHeight / 100),
-        child: Row(
-          children: [
-            Container(
-              width: deviceWidth / 3,
-              decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(10)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(fit: BoxFit.cover, image),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: deviceWidth / 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      releaseDate,
-                      style: commonTextStyle(
-                          textColor: Colors.black.withOpacity(.3),
-                          fontSize: textSizeSmall),
-                    ),
-                    Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: commonTextStyle(
-                          fontSize: textSizeRegular,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                      child: Text(
-                        overview,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: commonTextStyle(
-                          fontSize: textSizeRegular,
-                        ),
-                      ),
-                    ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                        ),
-                        Icon(Icons.favorite)
-                      ],
-                    )
-                  ],
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          margin: EdgeInsets.symmetric(
+              horizontal: deviceWidth / 40, vertical: deviceHeight / 120),
+          height: deviceHeight / 6,
+          decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(.2),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: deviceWidth / 50, vertical: deviceHeight / 100),
+            child: Row(
+              children: [
+                Container(
+                  width: deviceWidth / 3,
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(fit: BoxFit.cover, image),
+                  ),
                 ),
-              ),
-            )
-          ],
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: deviceWidth / 50),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          releaseDate,
+                          style: commonTextStyle(fontSize: textSizeSmall),
+                        ),
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: commonTextStyle(
+                              fontSize: textSizeRegular,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Expanded(
+                          child: Text(
+                            overview,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: commonTextStyle(
+                              fontSize: textSizeRegular,
+                            ),
+                          ),
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                            ),
+                            Icon(
+                              Icons.favorite,
+                              color: Colors.white,
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
