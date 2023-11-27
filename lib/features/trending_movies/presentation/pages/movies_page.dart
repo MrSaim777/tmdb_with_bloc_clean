@@ -26,17 +26,19 @@ class TrendingMoviesScreen extends StatelessWidget {
                 children: [
                   const BackgroundContainer(),
                   ListView.builder(
-                    itemBuilder: (c, i) => MovieCard(
-                        image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
-                            state.movies[i].knownFor[0].posterPath,
-                        releaseDate:
-                            state.movies[i].knownFor[0].releaseDate.toString(),
-                        title: state.movies[i].knownFor[0].title ??
-                            state.movies[i].knownFor[0].name ??
-                            state.movies[i].knownFor[0].originalName!,
-                        overview: state.movies[i].knownFor[0].overview,
-                        rating: 0.0,
-                        isFavorite: false),
+                    itemBuilder: (c, i) {
+                      return MovieCard(
+                          image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
+                              state.movies[i].knownFor[0].posterPath,
+                          releaseDate: state.movies[i].knownFor[0].releaseDate
+                              .toString(),
+                          title: state.movies[i].knownFor[0].title ??
+                              state.movies[i].knownFor[0].name ??
+                              state.movies[i].knownFor[0].originalName!,
+                          overview: state.movies[i].knownFor[0].overview,
+                          rating: 0.0,
+                          isFavorite: false);
+                    },
                     itemCount: state.movies.length,
                   ),
                 ],
