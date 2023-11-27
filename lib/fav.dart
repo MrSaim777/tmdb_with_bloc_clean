@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tmdb_ui/background_container.dart';
+import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/home.dart';
 
 class FavoriteScreen extends StatelessWidget {

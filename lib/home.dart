@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:tmdb_ui/background_container.dart';
-import 'package:tmdb_ui/main.dart';
+import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
+import 'package:tmdb_ui/core/utils/constants/constants.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tmdb_ui/background_container.dart';
+import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/fav.dart';
-import 'package:tmdb_ui/home.dart';
-import 'package:tmdb_ui/main.dart';
+import 'package:tmdb_ui/features/trending_movies/presentation/pages/movies_page.dart';
 import 'package:tmdb_ui/search.dart';
 
 class BottomNav extends StatefulWidget {
@@ -21,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
       body: Stack(
         children: [
           selectednavButton == 0
-              ? const HomeScreen()
+              ? const TrendingMoviesScreen()
               : selectednavButton == 1
                   ? const SearchScreen()
                   : selectednavButton == 2
