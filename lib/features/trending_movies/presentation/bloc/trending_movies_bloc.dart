@@ -4,7 +4,6 @@ import 'package:tmdb_ui/core/error/failures.dart';
 import 'package:tmdb_ui/features/trending_movies/domain/entities/movie_entity.dart';
 import 'package:tmdb_ui/features/trending_movies/domain/usecases/get_movies.dart';
 
-
 part 'trending_movies_event.dart';
 part 'trending_movies_state.dart';
 
@@ -31,6 +30,7 @@ class TrendingMoviesBloc
     }
   }
 
+  onNavigateToDetailsPage() {}
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:

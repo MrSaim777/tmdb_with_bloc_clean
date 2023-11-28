@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/router/router.dart';
 import 'package:tmdb_ui/dependency_injection.dart';
+import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/bloc/trending_movies_bloc.dart';
 
 void main() {
@@ -13,6 +14,9 @@ void main() {
         BlocProvider<TrendingMoviesBloc>(
           create: (_) => getIt<TrendingMoviesBloc>(),
         ),
+        BlocProvider<MovieDetailBloc>(
+          create: (_) => getIt<MovieDetailBloc>(),
+        )
       ],
       child: MaterialApp.router(
         title: 'TMDB',

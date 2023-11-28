@@ -33,7 +33,7 @@ class TrendingMovies extends Equatable {
   List<Object?> get props => [page, results, totalPages, totalResults];
 }
 
-class ResultEntity {
+class ResultEntity{
   final bool adult;
   final int id;
   final String name;

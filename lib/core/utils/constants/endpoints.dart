@@ -20,7 +20,7 @@ class ApiEndPoints {
   static const String Top_Rated_Movies = '/movie/top_rated';
   static const String Movies_Changes = '/movie/changes';
   static const String Trending_Movies = '/trending/person/week';
-  static const String Movie_Detail = '/movie/500'; /*500 is movie id*/
+  static const String Movie_Detail = '/movie/'; /*500 is movie id /movie/500*/
   static const String Movie_Videos = '/movie/500/videos';
   static const String Similar_movies = '/movie/500/similar';
   static const String Movies_Recommendations = '/movie/500/recommendations';
@@ -54,6 +54,8 @@ class ApiParam {
   // static const String APPLICATION_JSON = "application/json";
   static const String apiKey = 'api_key';
   static const String page = 'page';
+  static const String id = 'id';
+
 
   // Response Params
   static const String DATA = "data";
