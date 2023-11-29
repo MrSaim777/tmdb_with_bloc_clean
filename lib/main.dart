@@ -21,7 +21,7 @@ void main() {
       child: MaterialApp.router(
         title: 'TMDB',
         theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
+            scaffoldBackgroundColor: Colors.black,
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.red)),
         builder: (context, child) {

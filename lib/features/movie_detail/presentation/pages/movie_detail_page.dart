@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
@@ -39,31 +40,31 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     }
 
     return Scaffold(
-      body: Center(
-        child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
-          builder: (context, state) {
-            if (state is MovieDetailLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is MovieDetailLoaded) {
-              return Stack(
-                children: [
-                  const BackgroundContainer(),
-                  MovieCard(
-                      image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
-                          state.movie.posterPath,
-                      releaseDate: state.movie.releaseDate.toString(),
-                      title: state.movie.title,
-                      overview: state.movie.overview,
-                      rating: 0.0,
-                      isFavorite: false)
-                ],
-              );
-            } else {
-              return Container();
-            }
-          },
+      body: FadeInDown(
+        child: Stack(
+          children: [
+            const BackgroundContainer(),
+            Center(
+              child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
+                builder: (context, state) {
+                  if (state is MovieDetailLoading) {
+                    return const CircularProgressIndicator();
+                  } else if (state is MovieDetailLoaded) {
+                    return MovieCard(
+                        image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
+                            state.movie.posterPath,
+                        releaseDate: state.movie.releaseDate.toString(),
+                        title: state.movie.title,
+                        overview: state.movie.overview,
+                        rating: 0.0,
+                        isFavorite: false);
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
