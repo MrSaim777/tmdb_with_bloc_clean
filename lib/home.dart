@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tmdb_ui/blur_container.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
-
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -58,7 +58,7 @@ class MovieCard extends StatelessWidget {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        child: Container(
+        child: BluryContainer(
           margin: EdgeInsets.symmetric(
               horizontal: deviceWidth / 40, vertical: deviceHeight / 120),
           height: deviceHeight / 6,
