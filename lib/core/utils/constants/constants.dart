@@ -29,5 +29,8 @@ TextStyle commonTextStyle(
 class Constants {
   static const String someThingWentWrong = 'Something went wrong';
   static const String noInternet = 'No Internet';
+  static const String votes = 'Votes';
+  static const String playTrailer = 'Play Trailer';
+
 
 }

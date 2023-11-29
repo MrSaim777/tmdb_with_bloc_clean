@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tmdb_ui/blur_container.dart';
@@ -78,7 +79,8 @@ class MovieCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(fit: BoxFit.cover, image),
+                    child:
+                        CachedNetworkImage(fit: BoxFit.cover, imageUrl: image),
                   ),
                 ),
                 Expanded(

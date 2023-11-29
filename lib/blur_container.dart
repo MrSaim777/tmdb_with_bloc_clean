@@ -7,6 +7,7 @@ class BluryContainer extends StatelessWidget {
       {super.key,
       this.height,
       this.width,
+      this.opacity,
       this.margin,
       this.padding,
       this.alignment,
@@ -15,6 +16,7 @@ class BluryContainer extends StatelessWidget {
 
   final double? height;
   final double? width;
+  final double? opacity;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
   final AlignmentGeometry? alignment;
@@ -25,7 +27,8 @@ class BluryContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRect(
         child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            filter: ImageFilter.blur(
+                sigmaX: opacity ?? 10.0, sigmaY: opacity ?? 10.0),
             child: Container(
               margin: margin,
               padding: padding,
