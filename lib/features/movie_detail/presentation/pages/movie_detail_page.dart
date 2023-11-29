@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
-import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/home.dart';
 
 class MovieDetailScreen extends StatefulWidget {
@@ -48,7 +47,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
           builder: (context, state) {
             if (state is MovieDetailLoading) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             } else if (state is MovieDetailLoaded) {
               return Stack(
                 children: [
@@ -73,7 +72,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       releaseDate: state.movie.releaseDate.toString(),
                       title: state.movie.title,
                       overview: state.movie.overview,
-                      rating: 0.0,
+                      rating: state.movie.voteAverage / 2,
                       isFavorite: false),
                 ],
               );

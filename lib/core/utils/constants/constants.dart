@@ -25,3 +25,9 @@ TextStyle commonTextStyle(
     fontWeight: fontWeight ?? FontWeight.normal,
   );
 }
+
+class Constants {
+  static const String someThingWentWrong = 'Something went wrong';
+  static const String noInternet = 'No Internet';
+
+}

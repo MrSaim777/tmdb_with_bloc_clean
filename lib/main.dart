@@ -22,6 +22,7 @@ void main() {
         title: 'TMDB',
         theme: ThemeData(
             scaffoldBackgroundColor: Colors.black,
+            iconTheme: const IconThemeData(color: Colors.white),
             useMaterial3: true,
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.red)),
         builder: (context, child) {

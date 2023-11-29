@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/router/routes.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
@@ -25,6 +27,12 @@ class TrendingMoviesScreen extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            } else if (state is TrendingMoviesError) {
+              return Center(
+                child: Text(state.message,
+                  style: commonTextStyle(),
+                ),
+              );
             } else if (state is TrendingMoviesCompleted) {
               return FadeInDown(
                 child: Stack(
@@ -32,6 +40,10 @@ class TrendingMoviesScreen extends StatelessWidget {
                     const BackgroundContainer(),
                     ListView.builder(
                       itemBuilder: (c, i) {
+                        DateFormat formatter = DateFormat('yyyy-MM-dd');
+                        String formattedDate = formatter.format(
+                            state.movies[i].knownFor[0].releaseDate ??
+                                DateTime.now());
                         return GestureDetector(
                           onTap: () {
                             context.read<MovieDetailBloc>().add(LoadingEvent());
@@ -42,14 +54,13 @@ class TrendingMoviesScreen extends StatelessWidget {
                           child: MovieCard(
                               image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
                                   state.movies[i].knownFor[0].posterPath,
-                              releaseDate: state
-                                  .movies[i].knownFor[0].releaseDate
-                                  .toString(),
+                              releaseDate: formattedDate,
                               title: state.movies[i].knownFor[0].title ??
                                   state.movies[i].knownFor[0].name ??
                                   state.movies[i].knownFor[0].originalName!,
                               overview: state.movies[i].knownFor[0].overview,
-                              rating: 0.0,
+                              rating:
+                                  state.movies[i].knownFor[0].voteAverage / 2,
                               isFavorite: false),
                         );
                       },

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tmdb_ui/blur_container.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
@@ -104,21 +105,40 @@ class MovieCard extends StatelessWidget {
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: commonTextStyle(
-                              fontSize: textSizeRegular,
+                              fontSize: textSizeSmall,
                             ),
                           ),
                         ),
-                        const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellow,
+                            RatingBar.builder(
+                              initialRating: rating,
+                              minRating: 1,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemSize: deviceWidth / 15,
+                              itemCount: 5,
+                              itemPadding: EdgeInsets.zero,
+                              itemBuilder: (context, _) => const Icon(
+                                Icons.star,
+                                color: Colors.yellow,
+                              ),
+                              onRatingUpdate: (rating) {},
                             ),
-                            Icon(
+                            const Icon(
                               Icons.favorite,
                               color: Colors.white,
                             )
+
+                            // Icon(
+                            //   Icons.star,
+                            //   color: Colors.yellow,
+                            // ),
+                            // Icon(
+                            //   Icons.favorite,
+                            //   color: Colors.white,
+                            // )
                           ],
                         )
                       ],
