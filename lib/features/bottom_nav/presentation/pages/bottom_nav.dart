@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
@@ -26,52 +27,57 @@ class _BottomNavState extends State<BottomNav> {
                   : selectednavButton == 2
                       ? const FavoriteScreen()
                       : const SizedBox.shrink(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: deviceHeight / 40, horizontal: deviceWidth / 4),
-              child: Container(
-                height: deviceHeight / 15,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [boxShadow],
-                    borderRadius: BorderRadius.circular(50)),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                          onPressed: () => setState(() {
-                                selectednavButton = 0;
-                              }),
-                          icon: Icon(
-                            CupertinoIcons.home,
-                            color: selectednavButton == 0
-                                ? Colors.red
-                                : Colors.black,
-                          )),
-                      IconButton(
-                          onPressed: () => setState(() {
-                                selectednavButton = 1;
-                              }),
-                          icon: Icon(
-                            CupertinoIcons.search,
-                            color: selectednavButton == 1
-                                ? Colors.red
-                                : Colors.black,
-                          )),
-                      IconButton(
-                          onPressed: () => setState(() {
-                                selectednavButton = 2;
-                              }),
-                          icon: Icon(
-                            CupertinoIcons.heart,
-                            color: selectednavButton == 2
-                                ? Colors.red
-                                : Colors.black,
-                          ))
-                    ],
+          Hero(
+            tag: 'backButton',
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: deviceHeight / 40, horizontal: deviceWidth / 4),
+                child: FadeInUp(
+                  child: Container(
+                    height: deviceHeight / 15,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [boxShadow],
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                              onPressed: () => setState(() {
+                                    selectednavButton = 0;
+                                  }),
+                              icon: Icon(
+                                CupertinoIcons.home,
+                                color: selectednavButton == 0
+                                    ? Colors.red
+                                    : Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () => setState(() {
+                                    selectednavButton = 1;
+                                  }),
+                              icon: Icon(
+                                CupertinoIcons.search,
+                                color: selectednavButton == 1
+                                    ? Colors.red
+                                    : Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () => setState(() {
+                                    selectednavButton = 2;
+                                  }),
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                                color: selectednavButton == 2
+                                    ? Colors.red
+                                    : Colors.black,
+                              ))
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
