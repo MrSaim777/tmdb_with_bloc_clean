@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +31,8 @@ class TrendingMoviesScreen extends StatelessWidget {
               );
             } else if (state is TrendingMoviesError) {
               return Center(
-                child: Text(state.message,
+                child: Text(
+                  state.message,
                   style: commonTextStyle(),
                 ),
               );
@@ -46,6 +49,7 @@ class TrendingMoviesScreen extends StatelessWidget {
                                 DateTime.now());
                         return GestureDetector(
                           onTap: () {
+                            log(state.movies[i].knownFor[0].id.toString(),name: "id");
                             context.read<MovieDetailBloc>().add(LoadingEvent());
                             context.goNamed(DETAIL, pathParameters: {
                               "id": state.movies[i].knownFor[0].id.toString()

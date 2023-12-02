@@ -9,7 +9,12 @@ part 'movie_detail_state.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetMovieDetail getMovieDetail;
-  MovieDetailBloc({required this.getMovieDetail})
+  final GetVideo getVideo;
+  final GetImages getImages;
+  MovieDetailBloc(
+      {required this.getMovieDetail,
+      required this.getVideo,
+      required this.getImages})
       : super(const MovieDetailLoading()) {
     on<MovieDetailEvent>(handlestate);
     on<LoadingEvent>((event, emit) => emit(const MovieDetailLoading()));
@@ -18,12 +23,21 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       MovieDetailEvent e, Emitter<MovieDetailState> emit) async {
     if (e is LoadMovieDetailEvent) {
       final failureOrMovies = await getMovieDetail(MovieDetailParams(e.id));
-
       emit(failureOrMovies.fold(
           (error) => MovieDetailError(
                 message: _mapFailureToMessage(error),
               ),
           (movie) => MovieDetailLoaded(movie: movie)));
+    }
+    if (e is LoadMovieDetailEvent) {
+      //create some bool variable to mnage the state
+      await getVideo(MovieDetailParams(e.id))
+          .then((value) => add(LoadImagesEvent(id: e.id)));
+    }
+    if (e is LoadImagesEvent) {
+      //triger event in state to load images
+      //emit some bool variable
+      await getImages(MovieDetailParams(e.id));
     }
   }
 

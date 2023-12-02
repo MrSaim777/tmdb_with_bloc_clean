@@ -2,48 +2,26 @@ import 'dart:ui';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tmdb_ui/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/back_button.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
-import 'package:tmdb_ui/home.dart';
 
-class MovieDetailScreen extends StatefulWidget {
+class MovieDetailScreen extends StatelessWidget {
   const MovieDetailScreen({super.key, required this.id});
 
   final String id;
 
-  @override
-  State<MovieDetailScreen> createState() => _MovieDetailScreenState();
-}
-
-class _MovieDetailScreenState extends State<MovieDetailScreen> {
 //   late MovieDetailBloc movieDetailBloc;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     movieDetailBloc = context.read<MovieDetailBloc>();
-//     movieDetailBloc.add(LoadMovieDetailEvent(id: int.parse(widget.id)));
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-// movieDetailBloc.close();
-//   }
-
   @override
   Widget build(BuildContext context) {
     if (context.read<MovieDetailBloc>().state is MovieDetailLoading) {
       context
           .read<MovieDetailBloc>()
-          .add(LoadMovieDetailEvent(id: int.parse(widget.id)));
+          .add(LoadMovieDetailEvent(id: int.parse(id)));
     }
 
     return SafeArea(

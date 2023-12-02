@@ -21,13 +21,13 @@ class ApiEndPoints {
   static const String Movies_Changes = '/movie/changes';
   static const String Trending_Movies = '/trending/person/week';
   static const String Movie_Detail = '/movie/'; /*500 is movie id /movie/500*/
-  static const String Movie_Videos = '/movie/500/videos';
+  static const String Movie_Videos = '/videos';
   static const String Similar_movies = '/movie/500/similar';
   static const String Movies_Recommendations = '/movie/500/recommendations';
   static const String Movie_Keywords = '/movie/500/keywords';
   static const String Movie_Reviews = '/movie/500/reviews';
   static const String Movie_Credits = '/movie/500/credits';
-  static const String Movie_Images = '/movie/500/images';
+  static const String Movie_Images = '/images';
   static const String Movie_Alternative_Titles =
       '/movie/500/alternative_titles';
 

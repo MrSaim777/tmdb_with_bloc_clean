@@ -43,11 +43,16 @@ initDependencies() {
 
   getIt.registerSingleton<GetMovieDetail>(
       GetMovieDetail(repository: getIt<MovieDetailRepository>()));
-
+  getIt.registerSingleton<GetVideo>(
+      GetVideo(repository: getIt<MovieDetailRepository>()));
+  getIt.registerSingleton<GetImages>(
+      GetImages(repository: getIt<MovieDetailRepository>()));
 // FACTORY OF BLOCS
 
   getIt.registerFactory(
       () => TrendingMoviesBloc(getMovies: getIt.get<GetMovies>()));
-  getIt.registerFactory(
-      () => MovieDetailBloc(getMovieDetail: getIt.get<GetMovieDetail>()));
+  getIt.registerFactory(() => MovieDetailBloc(
+      getMovieDetail: getIt.get<GetMovieDetail>(),
+      getVideo: getIt.get<GetVideo>(),
+      getImages: getIt.get<GetImages>()));
 }

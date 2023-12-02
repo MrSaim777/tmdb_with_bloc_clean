@@ -34,43 +34,36 @@ class TrendingMovies extends Equatable {
 }
 
 class ResultEntity{
-  final bool adult;
   final int id;
   final String name;
   final String originalName;
   final double popularity;
-  final int gender;
   final String profilePath;
   final List<KnownFor> knownFor;
 
   ResultEntity({
-    required this.adult,
     required this.id,
     required this.name,
     required this.originalName,
     required this.popularity,
-    required this.gender,
     required this.profilePath,
     required this.knownFor,
   });
 
   ResultEntity copyWith({
-    bool? adult,
+ 
     int? id,
     String? name,
     String? originalName,
     double? popularity,
-    int? gender,
     String? profilePath,
     List<KnownFor>? knownFor,
   }) {
     return ResultEntity(
-      adult: adult ?? this.adult,
       id: id ?? this.id,
       name: name ?? this.name,
       originalName: originalName ?? this.originalName,
       popularity: popularity ?? this.popularity,
-      gender: gender ?? this.gender,
       profilePath: profilePath ?? this.profilePath,
       knownFor: knownFor ?? this.knownFor,
     );
