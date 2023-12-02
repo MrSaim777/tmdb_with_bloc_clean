@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 
 class BackgroundContainer extends StatelessWidget {
   const BackgroundContainer({super.key});
@@ -17,7 +18,8 @@ class BackgroundContainer extends StatelessWidget {
               height: 300,
               width: 200,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.red),
+                  shape: BoxShape.circle,
+                  color: ConstantColors.appPrimaryColor),
             ),
           ),
           Align(
@@ -26,7 +28,8 @@ class BackgroundContainer extends StatelessWidget {
               height: 200,
               width: 300,
               decoration: const BoxDecoration(
-                  shape: BoxShape.circle, color: Colors.red),
+                  shape: BoxShape.circle,
+                  color: ConstantColors.appPrimaryColor),
             ),
           ),
           // Align(
@@ -35,7 +38,7 @@ class BackgroundContainer extends StatelessWidget {
           //     height: 300,
           //     width: 200,
           //     decoration: const BoxDecoration(
-          //         shape: BoxShape.circle, color: Colors.red),
+          //         shape: BoxShape.circle, color: ConstantColors.appPrimaryColor),
           //   ),
           // ),
           BackdropFilter(

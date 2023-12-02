@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/router/router.dart';
 import 'package:tmdb_ui/dependency_injection.dart';
@@ -9,6 +11,7 @@ import 'package:tmdb_ui/features/trending_movies/presentation/bloc/trending_movi
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   initDependencies();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MultiBlocProvider(
       providers: [
         BlocProvider<TrendingMoviesBloc>(
@@ -24,7 +27,8 @@ void main() {
             scaffoldBackgroundColor: Colors.black,
             iconTheme: const IconThemeData(color: Colors.white),
             useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.red)),
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: ConstantColors.appPrimaryColor)),
         builder: (context, child) {
           deviceWidth = MediaQuery.sizeOf(context).width;
           deviceHeight = MediaQuery.sizeOf(context).height;

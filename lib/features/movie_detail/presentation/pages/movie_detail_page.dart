@@ -4,10 +4,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/back_button.dart';
+import 'package:tmdb_ui/core/utils/router/routes.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 
 class MovieDetailScreen extends StatelessWidget {
@@ -72,6 +75,7 @@ class MovieDetailScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20)),
                                 child: Stack(
                                   clipBehavior: Clip.none,
+                                  fit: StackFit.expand,
                                   children: [
                                     Positioned(
                                       top: -deviceHeight / 30,
@@ -106,7 +110,8 @@ class MovieDetailScreen extends StatelessWidget {
                                           width: deviceWidth / 5,
                                           height: deviceHeight / 15,
                                           decoration: BoxDecoration(
-                                              color: Colors.red,
+                                              color: ConstantColors
+                                                  .appPrimaryColor,
                                               borderRadius:
                                                   BorderRadius.circular(10)),
                                           child: Center(
@@ -169,33 +174,46 @@ class MovieDetailScreen extends StatelessWidget {
                                         right: 0,
                                         left: 0,
                                         child: FadeInDownBig(
-                                          child: Container(
-                                            height: deviceHeight / 15,
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: deviceWidth / 20),
-                                            decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(50)),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.play_arrow,
-                                                  size: deviceWidth / 14,
-                                                ),
-                                                SizedBox(
-                                                  width: deviceWidth / 50,
-                                                ),
-                                                Text(
-                                                  Constants.playTrailer,
-                                                  style: commonTextStyle(
-                                                      fontSize: textSizeRegular,
-                                                      fontWeight:
-                                                          FontWeight.w900),
-                                                ),
-                                              ],
+                                          child: GestureDetector(
+                                            onTap: () => context.goNamed(VIDEO,
+                                                pathParameters: {
+                                                  ApiParam.videoId: context
+                                                          .read<
+                                                              MovieDetailBloc>()
+                                                          .videoKey ??
+                                                      ""
+                                                }),
+                                            child: Container(
+                                              height: deviceHeight / 15,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: deviceWidth / 20),
+                                              decoration: BoxDecoration(
+                                                  color: ConstantColors
+                                                      .appPrimaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          50)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.play_arrow,
+                                                    size: deviceWidth / 14,
+                                                  ),
+                                                  SizedBox(
+                                                    width: deviceWidth / 50,
+                                                  ),
+                                                  Text(
+                                                    Constants.playTrailer,
+                                                    style: commonTextStyle(
+                                                        fontSize:
+                                                            textSizeRegular,
+                                                        fontWeight:
+                                                            FontWeight.w900),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ))

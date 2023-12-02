@@ -11,6 +11,8 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetMovieDetail getMovieDetail;
   final GetVideo getVideo;
   final GetImages getImages;
+
+  String? videoKey;
   MovieDetailBloc(
       {required this.getMovieDetail,
       required this.getVideo,
@@ -30,9 +32,17 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
           (movie) => MovieDetailLoaded(movie: movie)));
     }
     if (e is LoadMovieDetailEvent) {
-      //create some bool variable to mnage the state
-      await getVideo(MovieDetailParams(e.id))
-          .then((value) => add(LoadImagesEvent(id: e.id)));
+      // Create some bool variable to manage the state
+      await getVideo(MovieDetailParams(e.id)).then(
+        (value) {
+          value.fold(
+            (l) => null,
+            (r) {
+              videoKey = r.results.isNotEmpty ? r.results[0].key : "";
+            },
+          );
+        },
+      );
     }
     if (e is LoadImagesEvent) {
       //triger event in state to load images

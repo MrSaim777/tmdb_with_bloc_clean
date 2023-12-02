@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+
 double deviceWidth = 0;
 double deviceHeight = 0;
 double deviceAverageSize = 0;
@@ -31,6 +33,4 @@ class Constants {
   static const String noInternet = 'No Internet';
   static const String votes = 'Votes';
   static const String playTrailer = 'Play Trailer';
-
-
 }

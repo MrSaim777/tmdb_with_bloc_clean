@@ -53,7 +53,7 @@ class MovieDetailRepositoryImpl implements MovieDetailRepository {
     if (await networkInfo.isConnected) {
       try {
         final movie = await movieDetailDataSource.getVideo(id);
-        log(movie.results[0].name, name: "Video");
+        log(movie.results[0].key, name: "Video key");
         return Right(movie);
       } on ServerException {
         return Left(ServerFailure());

@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 
 class AppBackButton extends StatelessWidget {
@@ -17,8 +17,8 @@ class AppBackButton extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.only(top: deviceHeight / 50),
             padding: EdgeInsets.all(deviceWidth / 50),
-            decoration:
-                const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+                color: ConstantColors.appPrimaryColor, shape: BoxShape.circle),
             child: const Center(
               child: Icon(CupertinoIcons.back),
             ),
