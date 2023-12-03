@@ -1,9 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
-import 'package:tmdb_ui/home.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

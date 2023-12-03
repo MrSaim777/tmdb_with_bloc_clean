@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:tmdb_ui/core/network/network_info.dart';
+import 'package:tmdb_ui/features/bottom_nav/presentation/bloc/bottom_nav_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/data/datasources/remote_data_sources.dart';
 import 'package:tmdb_ui/features/movie_detail/data/repositories/movie_detail_repo_impl.dart';
 import 'package:tmdb_ui/features/movie_detail/domain/repositories/movie_detail_repo.dart';
@@ -55,4 +56,6 @@ initDependencies() {
       getMovieDetail: getIt.get<GetMovieDetail>(),
       getVideo: getIt.get<GetVideo>(),
       getImages: getIt.get<GetImages>()));
+
+  getIt.registerFactory(() => BottomNavBloc());
 }

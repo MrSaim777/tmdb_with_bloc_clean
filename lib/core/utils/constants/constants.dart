@@ -33,4 +33,6 @@ class Constants {
   static const String noInternet = 'No Internet';
   static const String votes = 'Votes';
   static const String playTrailer = 'Play Trailer';
+  static const String overView = 'Overview';
+
 }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:tmdb_ui/core/utils/reusables/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
@@ -219,19 +220,85 @@ class MovieDetailScreen extends StatelessWidget {
                                         ))
                                   ],
                                 )),
-                          )
+                          ),
+                          FadeInRightBig(
+                              child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              BluryContainer(
+                                  opacity: 0,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: deviceWidth / 30,
+                                      vertical: deviceHeight / 30),
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: deviceHeight / 50),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(.2),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Text(
+                                    state.movie.overview,
+                                    style: commonTextStyle(),
+                                  )),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: deviceWidth / 30,
+                                      vertical: deviceHeight / 100),
+                                  decoration: BoxDecoration(
+                                      color: ConstantColors.appPrimaryColor,
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Text(
+                                    Constants.overView,
+                                    style: commonTextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
+                          // FadeInLeftBig(
+                          //   child: BluryContainer(
+                          //       opacity: 0,
+                          //       padding: EdgeInsets.symmetric(
+                          //           horizontal: deviceWidth / 30,
+                          //           vertical: deviceHeight / 30),
+                          //       margin: EdgeInsets.symmetric(
+                          //           vertical: deviceHeight / 50),
+                          //       decoration: BoxDecoration(
+                          //           color: Colors.white.withOpacity(.2),
+                          //           borderRadius: BorderRadius.circular(20)),
+                          //       child: SizedBox(
+                          //         height: deviceHeight / 10,
+                          //         // width: deviceWidth / 1.1,
+                          //         child: ListView.builder(
+                          //           shrinkWrap: true,
+                          //           scrollDirection: Axis.horizontal,
+                          //           itemCount: context
+                          //                   .read<MovieDetailBloc>()
+                          //                   .imagesEntity!
+                          //                   .backdrops
+                          //                   .length ??
+                          //               10,
+                          //           itemBuilder: (context, index) =>
+                          //               CircleAvatar(
+                          //             radius: deviceHeight / 20,
+                          //             child: CachedNetworkImage(
+                          //                 imageUrl: BaseUrl
+                          //                         .TRENDING_MOVIES_IMAGE_BASE_URL +
+                          //                     context
+                          //                         .read<MovieDetailBloc>()
+                          //                         .imagesEntity!
+                          //                         .backdrops[index]
+                          //                         .filePath),
+                          //           ),
+                          //         ),
+                          //       )),
+                          // )
                         ],
                       ),
                     ),
                   )
-                  // MovieCard(
-                  // image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
-                  //     state.movie.posterPath,
-                  //     releaseDate: state.movie.releaseDate.toString(),
-                  //     title: state.movie.title,
-                  //     overview: state.movie.overview,
-                  //     rating: state.movie.voteAverage / 2,
-                  //     isFavorite: false),
                 ],
               );
             } else {

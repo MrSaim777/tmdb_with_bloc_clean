@@ -6,3 +6,8 @@ abstract class BottomNavEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class BottomNavTapped extends BottomNavEvent{
+  final int selectedIndex;
+  const BottomNavTapped({required this.selectedIndex});
+}

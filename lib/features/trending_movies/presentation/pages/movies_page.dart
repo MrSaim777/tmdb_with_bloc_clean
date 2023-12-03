@@ -7,11 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
+import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
 import 'package:tmdb_ui/core/utils/router/routes.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/bloc/trending_movies_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
-import 'package:tmdb_ui/home.dart';
 
 class TrendingMoviesScreen extends StatelessWidget {
   const TrendingMoviesScreen({super.key});

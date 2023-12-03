@@ -13,6 +13,8 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final GetImages getImages;
 
   String? videoKey;
+  // ImagesEntity? imagesEntity;
+  bool isLoading = false;
   MovieDetailBloc(
       {required this.getMovieDetail,
       required this.getVideo,
@@ -44,11 +46,13 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
         },
       );
     }
-    if (e is LoadImagesEvent) {
-      //triger event in state to load images
-      //emit some bool variable
-      await getImages(MovieDetailParams(e.id));
-    }
+    // if (e is LoadImagesEvent) {
+    //   //triger event in state to load images
+    //   //emit some bool variable
+    //   await getImages(MovieDetailParams(e.id)).then((value) {
+    //     value.fold((l) => null, (r) => imagesEntity = r);
+    //   });
+    // }
   }
 
   String _mapFailureToMessage(Failure failure) {

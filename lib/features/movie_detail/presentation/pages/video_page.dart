@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -11,8 +12,8 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   late YoutubePlayerController _controller;
-  late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
+  // late PlayerState _playerState;
+  // late YoutubeMetaData _videoMetaData;
   bool _isPlayerReady = false;
 
   @override
@@ -37,16 +38,16 @@ class _VideoScreenState extends State<VideoScreen> {
       ),
     )..addListener(listener);
 
-    _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;
+    // _videoMetaData = const YoutubeMetaData();
+    // _playerState = PlayerState.unknown;
   }
 
   void listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
-        _playerState = _controller.value.playerState;
-        _videoMetaData = _controller.metadata;
-      });
+      // setState(() {
+      //   _playerState = _controller.value.playerState;
+      //   _videoMetaData = _controller.metadata;
+      // });
     }
   }
 
@@ -69,6 +70,9 @@ class _VideoScreenState extends State<VideoScreen> {
       bottom: true,
       top: true,
       child: YoutubePlayer(
+        progressColors: const ProgressBarColors(
+            playedColor: ConstantColors.appPrimaryColor,
+            handleColor: ConstantColors.appWhiteColor),
         controller: _controller,
         showVideoProgressIndicator: false,
         onReady: () {

@@ -1,41 +1,11 @@
+
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:tmdb_ui/blur_container.dart';
-import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
+import 'package:tmdb_ui/core/utils/reusables/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            const BackgroundContainer(),
-            ListView.builder(
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return const MovieCard(
-                    image:
-                        'https://th.bing.com/th/id/OIP.xg6XZQvrc-1pZBoEh5sgagHaKl?rs=1&pid=ImgDetMain',
-                    releaseDate: 'Nov 23, 2012',
-                    title: 'Harry potter and the snack',
-                    overview: 'Harry potter and the snack Harry potter and tk',
-                    rating: 0.0,
-                    isFavorite: false);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class MovieCard extends StatelessWidget {
   const MovieCard({
