@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_ui/core/utils/constants/constant_colors.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
-import 'package:tmdb_ui/core/utils/router/router.dart';
+import 'package:tmdb_ui/config/router/router.dart';
 import 'package:tmdb_ui/dependency_injection.dart';
 import 'package:tmdb_ui/features/bottom_nav/presentation/bloc/bottom_nav_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
