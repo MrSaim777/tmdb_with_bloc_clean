@@ -8,10 +8,6 @@ class BaseUrl {
 }
 
 class ApiEndPoints {
-  //Search Endpoints
-  static const String Search_Movie =
-      'https://api.themoviedb.org/3/search/movie?query=John wick&api_key={{api_key}}';
-
   //Movies Endpoints
   static const String Now_Playing_Movies = '/movie/now_playing';
   static const String Upcoming_Movies = '/movie/upcoming';
@@ -30,6 +26,10 @@ class ApiEndPoints {
   static const String Movie_Images = '/images';
   static const String Movie_Alternative_Titles =
       '/movie/500/alternative_titles';
+
+  //Search Endpoints
+  static const String Search_Movie = '/search/movie';
+  // 'https://api.themoviedb.org/3/search/movie?query=John wick&api_key={{api_key}}';
 
   // Genre Endpoints
   static const String Movies_Genre = '/genre/movie/list?language=en';
@@ -56,7 +56,7 @@ class ApiParam {
   static const String page = 'page';
   static const String id = 'id';
   static const String videoId = 'videoId';
-
+  static const String query = 'query';
 
   // Response Params
   static const String DATA = "data";
