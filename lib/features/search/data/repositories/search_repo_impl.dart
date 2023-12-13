@@ -28,7 +28,7 @@ class SeachRepositoryImplementation extends SearchRepository {
       } on ServerException {
         return Left(ServerFailure());
       } catch (e) {
-        return Left(ServerFailure());
+        return Left(CatchError());
       }
     } else {
       return Left(NoInternetFailure());

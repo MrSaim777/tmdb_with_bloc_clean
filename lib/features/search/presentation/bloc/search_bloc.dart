@@ -35,6 +35,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     switch (failure.runtimeType) {
       case ServerFailure:
         return "Sorry there was a server error";
+      case CatchError:
+        return "Something went wrong";
       case NoInternetFailure:
         return "Sorry No Internet Connection";
       default:
