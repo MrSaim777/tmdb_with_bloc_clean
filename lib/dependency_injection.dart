@@ -8,6 +8,11 @@ import 'package:tmdb_ui/features/movie_detail/data/repositories/movie_detail_rep
 import 'package:tmdb_ui/features/movie_detail/domain/repositories/movie_detail_repo.dart';
 import 'package:tmdb_ui/features/movie_detail/domain/usecases/get_movie_detail.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
+import 'package:tmdb_ui/features/search/data/datasources/search_datasource.dart';
+import 'package:tmdb_ui/features/search/data/repositories/search_repo_impl.dart';
+import 'package:tmdb_ui/features/search/domain/repositories/search_repo.dart';
+import 'package:tmdb_ui/features/search/domain/usecases/search_usecase.dart';
+import 'package:tmdb_ui/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/data/datasources/remote_data_sources.dart';
 import 'package:tmdb_ui/features/trending_movies/data/repositories/movies_repo_impl.dart';
 import 'package:tmdb_ui/features/trending_movies/domain/repositories/movies_repo.dart';
@@ -22,6 +27,8 @@ initDependencies() {
       () => MoviesDataSourceImpl(dio: Dio()));
   getIt.registerLazySingleton<MovieDetailDataSource>(
       () => MovieDetailDataSourceImpl(dio: Dio()));
+  getIt.registerLazySingleton<SearchDataSource>(
+      () => SearchDataSourceImpl(dio: Dio()));
   getIt.registerLazySingleton<InternetConnectionChecker>(
       () => InternetConnectionChecker());
 
@@ -37,25 +44,31 @@ initDependencies() {
       MovieDetailRepositoryImpl(
           movieDetailDataSource: getIt<MovieDetailDataSource>(),
           networkInfo: getIt<NetworkInfo>()));
+  getIt.registerLazySingleton<SearchRepository>(() =>
+      SeachRepositoryImplementation(
+          searchDataSource: getIt<SearchDataSource>(),
+          networkInfo: getIt<NetworkInfo>()));
 
   //USE CASES
   getIt.registerSingleton<GetMovies>(
       GetMovies(repository: getIt<MoviesRepository>()));
-
   getIt.registerSingleton<GetMovieDetail>(
       GetMovieDetail(repository: getIt<MovieDetailRepository>()));
   getIt.registerSingleton<GetVideo>(
       GetVideo(repository: getIt<MovieDetailRepository>()));
   getIt.registerSingleton<GetImages>(
       GetImages(repository: getIt<MovieDetailRepository>()));
-// FACTORY OF BLOCS
 
+  getIt.registerSingleton<GetSearchResultsUseCase>(
+      GetSearchResultsUseCase(repository: getIt<SearchRepository>()));
+
+// FACTORY OF BLOCS
   getIt.registerFactory(
       () => TrendingMoviesBloc(getMovies: getIt.get<GetMovies>()));
   getIt.registerFactory(() => MovieDetailBloc(
       getMovieDetail: getIt.get<GetMovieDetail>(),
       getVideo: getIt.get<GetVideo>(),
       getImages: getIt.get<GetImages>()));
-
   getIt.registerFactory(() => BottomNavBloc());
+  getIt.registerFactory(() => SearchBloc(getIt.get<GetSearchResultsUseCase>()));
 }

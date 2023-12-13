@@ -23,8 +23,11 @@ class SeachRepositoryImplementation extends SearchRepository {
     if (await networkInfo.isConnected) {
       try {
         final results = await searchDataSource.getSearchResults(page, query);
+        // log(results.results.toString(), name: "results");
         return Right(results);
       } on ServerException {
+        return Left(ServerFailure());
+      } catch (e) {
         return Left(ServerFailure());
       }
     } else {

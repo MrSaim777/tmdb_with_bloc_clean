@@ -20,3 +20,5 @@ class SearchParams {
   final String query;
   const SearchParams(this.page, this.query);
 }
+
+

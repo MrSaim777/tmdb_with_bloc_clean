@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:tmdb_ui/core/error/exceptions.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
@@ -28,10 +27,9 @@ class SearchDataSourceImpl extends SearchDataSource {
     final Response response = await dio.get(
         BaseUrl.baseUrl + ApiEndPoints.Search_Movie,
         queryParameters: params);
-
     if (response.statusCode == 200) {
       SearchModel searchModel = SearchModel.fromJson(response.data);
-      return searchModel;
+    return searchModel;
     } else {
       log("Error", name: "Error on Searching");
       throw ServerException();

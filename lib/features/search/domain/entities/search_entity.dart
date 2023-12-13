@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class SearchEntity extends Equatable {
   final int page;
@@ -51,11 +52,12 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         id: json["id"],
-        overview: json["overview"],
-        posterPath: json["poster_path"],
-        releaseDate: DateTime.parse(json["release_date"]),
-        title: json["title"],
-        voteAverage: json["vote_average"]?.toDouble(),
+        overview: json["overview"] ?? "",
+        posterPath: json["poster_path"] ?? "",
+        releaseDate: DateTime.parse(json["release_date"] ??
+            json[DateFormat('yyyy-MM-dd').format(DateTime.now())]),
+        title: json["title"] ?? "",
+        voteAverage: json["vote_average"]?.toDouble() ?? 0.0,
       );
 
   Map<String, dynamic> toJson() => {

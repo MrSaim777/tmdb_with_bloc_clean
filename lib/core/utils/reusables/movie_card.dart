@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -49,8 +48,18 @@ class MovieCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child:
-                        CachedNetworkImage(fit: BoxFit.cover, imageUrl: image),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: image,
+                      placeholder: (context, url) {
+                         return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return const SizedBox.shrink();
+                      },
+                    ),
                   ),
                 ),
                 Expanded(

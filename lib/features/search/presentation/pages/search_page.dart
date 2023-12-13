@@ -1,15 +1,58 @@
+import 'dart:async';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
+import 'package:tmdb_ui/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
   @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  Timer? _debounce;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<SearchBloc>().searchController.addListener(_onTextChanged);
+  }
+
+  @override
+  void dispose() {
+    context.read<SearchBloc>().searchController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    _debounce = Timer(const Duration(seconds: 1), () {
+      // Your onChanged logic goes here
+      print(
+          "Text changed: ${context.read<SearchBloc>().searchController.text}");
+      context.read<SearchBloc>().add(AddSearchQueryEvent(
+          query: context.read<SearchBloc>().searchController.text));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final searchBloc = BlocProvider.of<SearchBloc>(context);
+    if (searchBloc.state is SearchLoading) {
+      searchBloc.add(AddSearchQueryEvent(
+          query: searchBloc.searchController.text.toString()));
+    }
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -44,7 +87,9 @@ class SearchScreen extends StatelessWidget {
                       //     context: context,
                       //     delegate:
                       //         MySearchDelegate(hintText: "Search title, category etc")),
-                      readOnly: true,
+                      // readOnly: true,
+                      controller: searchBloc.searchController,
+                      onChanged: (value) => _onTextChanged(),
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           prefixIcon: const Icon(CupertinoIcons.search,
@@ -59,32 +104,75 @@ class SearchScreen extends StatelessWidget {
                       color: Colors.grey.withOpacity(.1),
                     ),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: 20,
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: deviceWidth / 40),
+                  BlocBuilder<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      if (state is SearchLoading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is SearchFailure) {
+                        return Center(
+                          child: Text(
+                            state.message,
+                            style: commonTextStyle(),
+                          ),
+                        );
+                      } else if (state is SearchCompleted) {
+                        return searchBloc.searchController.text.isEmpty
+                            ? Center(
                                 child: Text(
-                                  'For you',
-                                  style: commonTextStyle(
-                                      fontSize: textSizeMediumBig,
-                                      fontWeight: FontWeight.bold),
+                                  "Search Movie",
+                                  style: commonTextStyle(),
                                 ),
                               )
-                            : const MovieCard(
-                                image:
-                                    'https://th.bing.com/th/id/OIP.xg6XZQvrc-1pZBoEh5sgagHaKl?rs=1&pid=ImgDetMain',
-                                releaseDate: 'Nov 23, 2012',
-                                title: 'Harry potter and the snack',
-                                overview:
-                                    'Harry potter and the snack Harry potter and tk',
-                                rating: 0.0,
-                                isFavorite: false);
-                      },
-                    ),
+                            : searchBloc.searchController.text.isNotEmpty &&
+                                    state.searchEntity.results.isEmpty
+                                ? Center(
+                                    child: Text(
+                                      "No Movie Found",
+                                      style: commonTextStyle(),
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                      itemCount:
+                                          state.searchEntity.results.length,
+                                      itemBuilder: (context, index) {
+                                        final list =
+                                            state.searchEntity.results[index];
+                                        DateFormat formatter =
+                                            DateFormat('yyyy-MM-dd');
+                                        String formattedDate =
+                                            formatter.format(list.releaseDate);
+                                        return
+                                            // index == 0
+                                            //     ? Padding(
+                                            //         padding: EdgeInsets.symmetric(
+                                            //             horizontal: deviceWidth / 40),
+                                            //         child: Text(
+                                            //           'For you',
+                                            //           style: commonTextStyle(
+                                            //               fontSize: textSizeMediumBig,
+                                            //               fontWeight: FontWeight.bold),
+                                            //         ),
+                                            //       )
+                                            //     :
+                                            MovieCard(
+                                                image: BaseUrl
+                                                        .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                                    list.posterPath,
+                                                releaseDate: formattedDate,
+                                                title: list.title,
+                                                overview: list.overview,
+                                                rating: list.voteAverage,
+                                                isFavorite: false);
+                                      },
+                                    ),
+                                  );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   )
                 ],
               ),

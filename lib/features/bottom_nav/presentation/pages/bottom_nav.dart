@@ -16,6 +16,7 @@ class BottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     // int index = context.<BottomNavBloc>read().index;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: BlocBuilder<BottomNavBloc, int>(
         builder: (context, state) {
           final bottomNavBloc = BlocProvider.of<BottomNavBloc>(context);

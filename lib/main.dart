@@ -7,6 +7,7 @@ import 'package:tmdb_ui/config/router/router.dart';
 import 'package:tmdb_ui/dependency_injection.dart';
 import 'package:tmdb_ui/features/bottom_nav/presentation/bloc/bottom_nav_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
+import 'package:tmdb_ui/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/bloc/trending_movies_bloc.dart';
 
 void main() {
@@ -21,7 +22,8 @@ void main() {
         BlocProvider<MovieDetailBloc>(
           create: (_) => getIt<MovieDetailBloc>(),
         ),
-        BlocProvider<BottomNavBloc>(create: (_) => getIt<BottomNavBloc>())
+        BlocProvider<BottomNavBloc>(create: (_) => getIt<BottomNavBloc>()),
+        BlocProvider<SearchBloc>(create: (_) => getIt<SearchBloc>())
       ],
       child: MaterialApp.router(
         title: 'TMDB',
