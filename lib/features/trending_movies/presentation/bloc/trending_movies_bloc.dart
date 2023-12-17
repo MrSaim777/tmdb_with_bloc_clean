@@ -31,6 +31,7 @@ class TrendingMoviesBloc
   }
 
   onNavigateToDetailsPage() {}
+  
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:

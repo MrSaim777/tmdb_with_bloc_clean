@@ -7,15 +7,15 @@ import 'package:tmdb_ui/core/utils/reusables/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({
-    super.key,
-    required this.image,
-    required this.releaseDate,
-    required this.title,
-    required this.overview,
-    required this.rating,
-    required this.isFavorite,
-  });
+  const MovieCard(
+      {super.key,
+      required this.image,
+      required this.releaseDate,
+      required this.title,
+      required this.overview,
+      required this.rating,
+      required this.isFavorite,
+      this.onTapFavorite});
 
   final String image;
   final String releaseDate;
@@ -23,6 +23,7 @@ class MovieCard extends StatelessWidget {
   final String overview;
   final double rating;
   final bool isFavorite;
+  final VoidCallback? onTapFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class MovieCard extends StatelessWidget {
                       fit: BoxFit.cover,
                       imageUrl: image,
                       placeholder: (context, url) {
-                         return const Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -107,19 +108,15 @@ class MovieCard extends StatelessWidget {
                               ),
                               onRatingUpdate: (rating) {},
                             ),
-                            const Icon(
-                              Icons.favorite,
-                              color: Colors.white,
+                            InkWell(
+                              onTap: onTapFavorite ?? () {},
+                              child: Icon(
+                                Icons.favorite,
+                                color: isFavorite == true
+                                    ? Colors.red
+                                    : Colors.white,
+                              ),
                             )
-
-                            // Icon(
-                            //   Icons.star,
-                            //   color: Colors.yellow,
-                            // ),
-                            // Icon(
-                            //   Icons.favorite,
-                            //   color: Colors.white,
-                            // )
                           ],
                         )
                       ],

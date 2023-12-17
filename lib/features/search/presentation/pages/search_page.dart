@@ -42,9 +42,6 @@ class _SearchScreenState extends State<SearchScreen> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(const Duration(seconds: 1), () {
-      // Your onChanged logic goes here
-      print(
-          "Text changed: ${context.read<SearchBloc>().searchController.text}");
       context.read<SearchBloc>().add(AddSearchQueryEvent(
           query: context.read<SearchBloc>().searchController.text));
     });
@@ -145,6 +142,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     )
                                   : Expanded(
                                       child: ListView.builder(
+                                        padding: EdgeInsets.only(
+                                            bottom: deviceHeight / 10),
                                         itemCount:
                                             state.searchEntity.results.length,
                                         itemBuilder: (context, index) {

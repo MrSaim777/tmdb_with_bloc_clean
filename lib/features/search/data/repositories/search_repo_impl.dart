@@ -27,7 +27,9 @@ class SeachRepositoryImplementation extends SearchRepository {
         return Right(results);
       } on ServerException {
         return Left(ServerFailure());
-      } catch (e) {
+      } catch (e, t) {
+        log('Error: ${e.toString()} Path: ${t.toString()}'.toString(),
+            name: "Search Exception");
         return Left(CatchError());
       }
     } else {

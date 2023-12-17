@@ -25,3 +25,4 @@ class TrendingMoviesCompleted extends TrendingMoviesState {
     required this.movies,
   });
 }
+

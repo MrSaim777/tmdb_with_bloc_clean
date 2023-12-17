@@ -3,6 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:tmdb_ui/core/network/network_info.dart';
 import 'package:tmdb_ui/features/bottom_nav/presentation/bloc/bottom_nav_bloc.dart';
+import 'package:tmdb_ui/features/favorite/data/datasources/database/movies_database.dart';
+import 'package:tmdb_ui/features/favorite/data/repositories/fav_repo_impl.dart';
+import 'package:tmdb_ui/features/favorite/domain/repositories/favorite_repo.dart';
+import 'package:tmdb_ui/features/favorite/domain/usecases/favorite_usecase.dart';
+import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/data/datasources/remote_data_sources.dart';
 import 'package:tmdb_ui/features/movie_detail/data/repositories/movie_detail_repo_impl.dart';
 import 'package:tmdb_ui/features/movie_detail/domain/repositories/movie_detail_repo.dart';
@@ -29,6 +34,7 @@ initDependencies() {
       () => MovieDetailDataSourceImpl(dio: Dio()));
   getIt.registerLazySingleton<SearchDataSource>(
       () => SearchDataSourceImpl(dio: Dio()));
+  getIt.registerLazySingleton<MoviesDB>(() => MoviesDB());
   getIt.registerLazySingleton<InternetConnectionChecker>(
       () => InternetConnectionChecker());
 
@@ -40,6 +46,9 @@ initDependencies() {
         moviesDataSource: getIt<MoviesDataSource>(),
         networkInfo: getIt<NetworkInfo>(),
       ));
+  getIt.registerLazySingleton<FavoriteMovieRepo>(() =>
+      FavoriteMovieRepoImplementation(
+          moviesDB: getIt<MoviesDB>(), networkInfo: getIt<NetworkInfo>()));
   getIt.registerLazySingleton<MovieDetailRepository>(() =>
       MovieDetailRepositoryImpl(
           movieDetailDataSource: getIt<MovieDetailDataSource>(),
@@ -61,6 +70,10 @@ initDependencies() {
 
   getIt.registerSingleton<GetSearchResultsUseCase>(
       GetSearchResultsUseCase(repository: getIt<SearchRepository>()));
+  getIt.registerSingleton<GetFavoriteMoviesUseCase>(
+      GetFavoriteMoviesUseCase(favoriteMovieRepo: getIt<FavoriteMovieRepo>()));
+  getIt.registerSingleton<FavoriteToggleUseCase>(
+      FavoriteToggleUseCase(favoriteMovieRepo: getIt<FavoriteMovieRepo>()));
 
 // FACTORY OF BLOCS
   getIt.registerFactory(
@@ -71,4 +84,7 @@ initDependencies() {
       getImages: getIt.get<GetImages>()));
   getIt.registerFactory(() => BottomNavBloc());
   getIt.registerFactory(() => SearchBloc(getIt.get<GetSearchResultsUseCase>()));
+  getIt.registerFactory(() => FavoriteBloc(
+      getFavoriteMoviesUseCase: getIt<GetFavoriteMoviesUseCase>(),
+      favoriteToggleUseCase: getIt<FavoriteToggleUseCase>()));
 }

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:tmdb_ui/config/extensions/build_context_extension.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
 import 'package:tmdb_ui/config/router/routes.dart';
+import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/bloc/trending_movies_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
@@ -35,12 +37,17 @@ class TrendingMoviesScreen extends StatelessWidget {
                 ),
               );
             } else if (state is TrendingMoviesCompleted) {
-              return FadeInDown(
+              return FadeInDownBig(
                 child: Stack(
                   children: [
                     const BackgroundContainer(),
                     ListView.builder(
+                      padding: EdgeInsets.only(
+                          bottom: context.height / 10,
+                          top: context.height / 20),
+                      itemCount: state.movies.length,
                       itemBuilder: (c, i) {
+                        bool isFav = false;
                         DateFormat formatter = DateFormat('yyyy-MM-dd');
                         String formattedDate = formatter.format(
                             state.movies[i].knownFor[0].releaseDate ??
@@ -53,20 +60,44 @@ class TrendingMoviesScreen extends StatelessWidget {
                                   state.movies[i].knownFor[0].id.toString()
                             });
                           },
-                          child: MovieCard(
-                              image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
-                                  state.movies[i].knownFor[0].posterPath,
-                              releaseDate: formattedDate,
-                              title: state.movies[i].knownFor[0].title ??
-                                  state.movies[i].knownFor[0].name ??
-                                  state.movies[i].knownFor[0].originalName!,
-                              overview: state.movies[i].knownFor[0].overview,
-                              rating:
-                                  state.movies[i].knownFor[0].voteAverage / 2,
-                              isFavorite: false),
+                          child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                            builder: (c, s) {
+                              return MovieCard(
+                                image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
+                                    state.movies[i].knownFor[0].posterPath,
+                                releaseDate: formattedDate,
+                                title: state.movies[i].knownFor[0].title ??
+                                    state.movies[i].knownFor[0].name ??
+                                    state.movies[i].knownFor[0].originalName!,
+                                overview: state.movies[i].knownFor[0].overview,
+                                rating:
+                                    state.movies[i].knownFor[0].voteAverage / 2,
+                                isFavorite: isFav,
+                                onTapFavorite: () => context
+                                    .read<FavoriteBloc>()
+                                    .add(ToggleEvent(
+                                        isFavorite: isFav,
+                                        id: state.movies[i].knownFor[0].id,
+                                        image: BaseUrl
+                                                .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                            state.movies[i].knownFor[0]
+                                                .posterPath,
+                                        date: formattedDate,
+                                        title: state
+                                                .movies[i].knownFor[0].title ??
+                                            state.movies[i].knownFor[0].name ??
+                                            state.movies[i].knownFor[0]
+                                                .originalName!,
+                                        overview: state
+                                            .movies[i].knownFor[0].overview,
+                                        rating: state.movies[i].knownFor[0]
+                                                .voteAverage /
+                                            2)),
+                              );
+                            },
+                          ),
                         );
                       },
-                      itemCount: state.movies.length,
                     ),
                   ],
                 ),
