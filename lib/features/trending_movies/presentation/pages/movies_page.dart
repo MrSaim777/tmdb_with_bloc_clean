@@ -47,7 +47,6 @@ class TrendingMoviesScreen extends StatelessWidget {
                           top: context.height / 20),
                       itemCount: state.movies.length,
                       itemBuilder: (c, i) {
-                        bool isFav = false;
                         DateFormat formatter = DateFormat('yyyy-MM-dd');
                         String formattedDate = formatter.format(
                             state.movies[i].knownFor[0].releaseDate ??
@@ -63,6 +62,7 @@ class TrendingMoviesScreen extends StatelessWidget {
                           child: BlocBuilder<FavoriteBloc, FavoriteState>(
                             builder: (c, s) {
                               return MovieCard(
+                                id: state.movies[i].knownFor[0].id,
                                 image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
                                     state.movies[i].knownFor[0].posterPath,
                                 releaseDate: formattedDate,
@@ -72,27 +72,6 @@ class TrendingMoviesScreen extends StatelessWidget {
                                 overview: state.movies[i].knownFor[0].overview,
                                 rating:
                                     state.movies[i].knownFor[0].voteAverage / 2,
-                                isFavorite: isFav,
-                                onTapFavorite: () => context
-                                    .read<FavoriteBloc>()
-                                    .add(ToggleEvent(
-                                        isFavorite: isFav,
-                                        id: state.movies[i].knownFor[0].id,
-                                        image: BaseUrl
-                                                .TRENDING_MOVIES_IMAGE_BASE_URL +
-                                            state.movies[i].knownFor[0]
-                                                .posterPath,
-                                        date: formattedDate,
-                                        title: state
-                                                .movies[i].knownFor[0].title ??
-                                            state.movies[i].knownFor[0].name ??
-                                            state.movies[i].knownFor[0]
-                                                .originalName!,
-                                        overview: state
-                                            .movies[i].knownFor[0].overview,
-                                        rating: state.movies[i].knownFor[0]
-                                                .voteAverage /
-                                            2)),
                               );
                             },
                           ),

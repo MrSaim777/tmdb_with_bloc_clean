@@ -10,17 +10,16 @@ abstract class FavoriteEvent extends Equatable {
 class LoadFavMoviesEvent extends FavoriteEvent {}
 
 class ToggleEvent extends FavoriteEvent {
+  
   final int id;
   final String image;
   final String date;
   final String title;
   final String overview;
   final double rating;
-  bool isFavorite;
 
-  ToggleEvent(
-      {this.isFavorite = true,
-      required this.id,
+  const ToggleEvent(
+      {required this.id,
       required this.image,
       required this.date,
       required this.title,

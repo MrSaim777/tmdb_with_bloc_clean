@@ -2,7 +2,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:tmdb_ui/features/trending_movies/data/models/movies_model.dart';
 
-
 class TrendingMovies extends Equatable {
   final int page;
   final List<Result> results;
@@ -33,15 +32,17 @@ class TrendingMovies extends Equatable {
   List<Object?> get props => [page, results, totalPages, totalResults];
 }
 
-class ResultEntity{
+class ResultEntity {
   final int id;
   final String name;
   final String originalName;
   final double popularity;
   final String profilePath;
   final List<KnownFor> knownFor;
+  bool isFavorite;
 
   ResultEntity({
+    this.isFavorite = false,
     required this.id,
     required this.name,
     required this.originalName,
@@ -51,7 +52,6 @@ class ResultEntity{
   });
 
   ResultEntity copyWith({
- 
     int? id,
     String? name,
     String? originalName,

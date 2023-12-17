@@ -18,7 +18,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     on<FavoriteEvent>(getFavoriteMovies);
     on<ToggleEvent>(toggleFavorite);
   }
-  
+
   Future<void> getFavoriteMovies(
       FavoriteEvent e, Emitter<FavoriteState> emit) async {
     if (e is LoadFavMoviesEvent) {
@@ -44,19 +44,10 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
               overview: event.overview,
               rating: event.rating))
           .then((value) => emit(value.fold((l) => ToggleError(), (isFavorite) {
-                event.isFavorite = isFavorite;
                 return ToggleCompleted(isFavorite: isFavorite);
               })));
     }
   }
-
-  // bool toggleFavButton(bool value) {
-  //   if (value == true) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
@@ -70,30 +61,4 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
         return 'Unexpected error';
     }
   }
-
-  //   Future<void> toggleFavorite(
-  //   TrendingMoviesEvent e,
-  //   Emitter<TrendingMoviesState> emit, {
-  //   required bool isFavorite,
-  //   required int id,
-  //   required String image,
-  //   required String date,
-  //   required String title,
-  //   required String overview,
-  //   required double rating,
-  // }) async {
-  //   // try {
-  //   if (e is ToggleFavoriteEvent) {
-  //     emit( FavLoading());
-  //     await moviesDB.toggleFavorite(
-  //         isFavorite: isFavorite,
-  //         id: id,
-  //         image: image,
-  //         date: date,
-  //         title: title,
-  //         overview: overview,
-  //         rating: rating);
-  //     emit( StopLoading());
-
-  //   }
 }

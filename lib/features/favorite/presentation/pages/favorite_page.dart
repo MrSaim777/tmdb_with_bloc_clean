@@ -1,9 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tmdb_ui/config/router/routes.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
+import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
 import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
+import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -47,13 +51,23 @@ class FavoriteScreen extends StatelessWidget {
                             itemCount: state.favoriteMovies.length,
                             itemBuilder: (context, index) {
                               final list = state.favoriteMovies[index];
-                              return MovieCard(
-                                  image: list.image,
-                                  releaseDate: list.date,
-                                  title: list.title,
-                                  overview: list.overview,
-                                  rating: list.rating,
-                                  isFavorite: false);
+                              return GestureDetector(
+                                onTap: () {
+                                  context
+                                      .read<MovieDetailBloc>()
+                                      .add(LoadingEvent());
+                                  context.goNamed(DETAIL, pathParameters: {
+                                    ApiParam.id: list.id.toString()
+                                  });
+                                },
+                                child: MovieCard(
+                                    id: list.id,
+                                    image: list.image,
+                                    releaseDate: list.date,
+                                    title: list.title,
+                                    overview: list.overview,
+                                    rating: list.rating),
+                              );
                             },
                           );
                   } else {

@@ -178,14 +178,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                                   });
                                             },
                                             child: MovieCard(
+                                                id: list.id,
                                                 image: BaseUrl
                                                         .TRENDING_MOVIES_IMAGE_BASE_URL +
                                                     list.posterPath,
                                                 releaseDate: formattedDate,
                                                 title: list.title,
                                                 overview: list.overview,
-                                                rating: list.voteAverage,
-                                                isFavorite: false),
+                                                rating: list.voteAverage),
                                           );
                                         },
                                       ),

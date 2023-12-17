@@ -2,28 +2,27 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tmdb_ui/core/utils/reusables/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
+import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard(
       {super.key,
+      required this.id,
       required this.image,
       required this.releaseDate,
       required this.title,
       required this.overview,
-      required this.rating,
-      required this.isFavorite,
-      this.onTapFavorite});
-
+      required this.rating});
+  final int id;
   final String image;
   final String releaseDate;
   final String title;
   final String overview;
   final double rating;
-  final bool isFavorite;
-  final VoidCallback? onTapFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -108,14 +107,34 @@ class MovieCard extends StatelessWidget {
                               ),
                               onRatingUpdate: (rating) {},
                             ),
-                            InkWell(
-                              onTap: onTapFavorite ?? () {},
-                              child: Icon(
-                                Icons.favorite,
-                                color: isFavorite == true
-                                    ? Colors.red
-                                    : Colors.white,
-                              ),
+                            BlocBuilder<FavoriteBloc, FavoriteState>(
+                              builder: (context, state) {
+                                context
+                                    .read<FavoriteBloc>()
+                                    .add(LoadFavMoviesEvent());
+                                if (state is FavoriteCompleted) {
+                                  return InkWell(
+                                    onTap: () => context
+                                        .read<FavoriteBloc>()
+                                        .add(ToggleEvent(
+                                            id: id,
+                                            image: image,
+                                            date: releaseDate,
+                                            title: title,
+                                            overview: overview,
+                                            rating: rating)),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: state.favoriteMovies
+                                              .any((e) => e.id == id)
+                                          ? Colors.red
+                                          : Colors.white,
+                                    ),
+                                  );
+                                } else {
+                                  return const SizedBox.shrink();
+                                }
+                              },
                             )
                           ],
                         )
