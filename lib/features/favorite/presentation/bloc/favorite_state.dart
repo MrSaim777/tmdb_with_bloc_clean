@@ -23,10 +23,11 @@ class FavoriteCompleted extends FavoriteState {
 }
 
 class ToggleWaiting extends FavoriteState {}
+
 class ToggleError extends FavoriteState {}
 
 class ToggleCompleted extends FavoriteState {
   final bool isFavorite;
-
+  
   const ToggleCompleted({required this.isFavorite});
 }

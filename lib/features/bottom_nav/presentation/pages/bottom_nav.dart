@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,55 +29,51 @@ class BottomNav extends StatelessWidget {
                       : state == 2
                           ? const FavoriteScreen()
                           : const SizedBox.shrink(),
-              Hero(
-                tag: 'backButton',
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: deviceHeight / 40,
-                        horizontal: deviceWidth / 4),
-                    child: Container(
-                      height: deviceHeight / 15,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [boxShadow],
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                                onPressed: () => bottomNavBloc.onTap(0),
-                                icon: Icon(
-                                  CupertinoIcons.home,
-                                  color: state == 0
-                                      ? ConstantColors.appPrimaryColor
-                                      : Colors.black,
-                                )),
-                            IconButton(
-                                onPressed: () => bottomNavBloc.onTap(1),
-                                icon: Icon(
-                                  CupertinoIcons.search,
-                                  color: state == 1
-                                      ? ConstantColors.appPrimaryColor
-                                      : Colors.black,
-                                )),
-                            IconButton(
-                                onPressed: () {
-                                  context
-                                      .read<FavoriteBloc>()
-                                      .emit(FavoriteLoading());
-                                  bottomNavBloc.onTap(2);
-                                },
-                                icon: Icon(
-                                  CupertinoIcons.heart,
-                                  color: state == 2
-                                      ? ConstantColors.appPrimaryColor
-                                      : Colors.black,
-                                ))
-                          ],
-                        ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: deviceHeight / 40, horizontal: deviceWidth / 4),
+                  child: Container(
+                    height: deviceHeight / 15,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [boxShadow],
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          IconButton(
+                              onPressed: () => bottomNavBloc.onTap(0),
+                              icon: Icon(
+                                CupertinoIcons.home,
+                                color: state == 0
+                                    ? ConstantColors.appPrimaryColor
+                                    : Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () => bottomNavBloc.onTap(1),
+                              icon: Icon(
+                                CupertinoIcons.search,
+                                color: state == 1
+                                    ? ConstantColors.appPrimaryColor
+                                    : Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                context
+                                    .read<FavoriteBloc>()
+                                    .add(AddFavLoadingEvent());
+                                bottomNavBloc.onTap(2);
+                              },
+                              icon: Icon(
+                                CupertinoIcons.heart,
+                                color: state == 2
+                                    ? ConstantColors.appPrimaryColor
+                                    : Colors.black,
+                              ))
+                        ],
                       ),
                     ),
                   ),

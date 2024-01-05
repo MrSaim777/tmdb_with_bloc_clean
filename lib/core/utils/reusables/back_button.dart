@@ -11,17 +11,14 @@ class AppBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap ?? () => Navigator.pop(context),
-      child: Hero(
-        tag: heroTag ?? "backButton",
-        child: FadeInLeftBig(
-          child: Container(
-            margin: EdgeInsets.only(top: deviceHeight / 50),
-            padding: EdgeInsets.all(deviceWidth / 50),
-            decoration: const BoxDecoration(
-                color: ConstantColors.appPrimaryColor, shape: BoxShape.circle),
-            child: const Center(
-              child: Icon(CupertinoIcons.back),
-            ),
+      child: FadeInLeftBig(
+        child: Container(
+          margin: EdgeInsets.only(top: deviceHeight / 50),
+          padding: EdgeInsets.all(deviceWidth / 50),
+          decoration: const BoxDecoration(
+              color: ConstantColors.appPrimaryColor, shape: BoxShape.circle),
+          child: const Center(
+            child: Icon(CupertinoIcons.back),
           ),
         ),
       ),

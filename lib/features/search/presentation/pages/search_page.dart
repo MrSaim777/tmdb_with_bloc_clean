@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tmdb_ui/config/router/routes.dart';
 import 'package:tmdb_ui/core/utils/constants/endpoints.dart';
 import 'package:tmdb_ui/core/utils/reusables/movie_card.dart';
+import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
 import 'package:tmdb_ui/features/movie_detail/presentation/bloc/movie_detail_bloc.dart';
 import 'package:tmdb_ui/features/search/presentation/bloc/search_bloc.dart';
 import 'package:tmdb_ui/features/trending_movies/presentation/widgets/background_container.dart';
@@ -61,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
           body: Stack(
             children: [
               const BackgroundContainer(),
-              FadeInDown(
+              FadeInDownBig(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -144,15 +145,23 @@ class _SearchScreenState extends State<SearchScreen> {
                                       child: ListView.builder(
                                         padding: EdgeInsets.only(
                                             bottom: deviceHeight / 10),
-                                        itemCount:
-                                            state.searchEntity.results.length,
+                                        itemCount: state.searchEntity.results
+                                            .where((e) =>
+                                                e.posterPath.isNotEmpty &&
+                                                e.title.isNotEmpty &&
+                                                e.overview.isNotEmpty &&
+                                                e.voteAverage != 0.0)
+                                            .length,
                                         itemBuilder: (context, index) {
                                           final list =
                                               state.searchEntity.results[index];
+
                                           DateFormat formatter =
                                               DateFormat('yyyy-MM-dd');
-                                          String formattedDate = formatter
-                                              .format(list.releaseDate);
+
+                                          String formattedDate =
+                                              formatter.format(DateTime.now());
+
                                           return
                                               // index == 0
                                               //     ? Padding(
@@ -177,15 +186,94 @@ class _SearchScreenState extends State<SearchScreen> {
                                                         list.id.toString()
                                                   });
                                             },
-                                            child: MovieCard(
-                                                id: list.id,
-                                                image: BaseUrl
-                                                        .TRENDING_MOVIES_IMAGE_BASE_URL +
-                                                    list.posterPath,
-                                                releaseDate: formattedDate,
-                                                title: list.title,
-                                                overview: list.overview,
-                                                rating: list.voteAverage),
+                                            child: BlocBuilder<FavoriteBloc,
+                                                FavoriteState>(
+                                              builder: (c, s) {
+                                                context
+                                                    .read<FavoriteBloc>()
+                                                    .add(LoadFavMoviesEvent());
+                                                final favMovies = context
+                                                    .read<FavoriteBloc>()
+                                                    .favoriteMoviesList;
+                                                bool isFav = favMovies.any(
+                                                    (e) => e.id == list.id);
+                                                // if (s is FavoriteCompleted) {}
+                                                if (s is ToggleCompleted) {
+                                                  return MovieCard(
+                                                      onTapFavBtn: () => context
+                                                          .read<FavoriteBloc>()
+                                                          .add(ToggleEvent(
+                                                              id: list.id,
+                                                              image: BaseUrl
+                                                                      .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                                                  list
+                                                                      .posterPath,
+                                                              date:
+                                                                  formattedDate,
+                                                              title: list.title,
+                                                              overview:
+                                                                  list.overview,
+                                                              rating:
+                                                                  list.voteAverage /
+                                                                      2)),
+                                                      isFav: s.isFavorite,
+                                                      id: list.id,
+                                                      image: BaseUrl
+                                                              .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                                          list.posterPath,
+                                                      releaseDate:
+                                                          formattedDate,
+                                                      title: list.title,
+                                                      overview: list.overview,
+                                                      rating: list.voteAverage);
+                                                } else {
+                                                  return MovieCard(
+                                                      onTapFavBtn: () => context
+                                                          .read<FavoriteBloc>()
+                                                          .add(ToggleEvent(
+                                                              id: list.id,
+                                                              image: BaseUrl
+                                                                      .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                                                  list
+                                                                      .posterPath,
+                                                              date:
+                                                                  formattedDate,
+                                                              title: list.title,
+                                                              overview:
+                                                                  list.overview,
+                                                              rating:
+                                                                  list.voteAverage /
+                                                                      2)),
+                                                      isFav: isFav,
+                                                      id: list.id,
+                                                      image: BaseUrl
+                                                              .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                                          list.posterPath,
+                                                      releaseDate:
+                                                          formattedDate,
+                                                      title: list.title,
+                                                      overview: list.overview,
+                                                      rating: list.voteAverage);
+                                                }
+                                              },
+                                            ),
+                                            // child: BlocBuilder<FavoriteBloc,
+                                            //     FavoriteState>(
+                                            //   builder: (c, s) {
+                                            //     final favList = context.read<FavoriteBloc>().favoriteMoviesList
+                                            //     return MovieCard(
+                                            //         onTapFavBtn: () {},
+                                            //         isFav: false,
+                                            //         id: list.id,
+                                            //         image: BaseUrl
+                                            //                 .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                            //             list.posterPath,
+                                            //         releaseDate: formattedDate,
+                                            //         title: list.title,
+                                            //         overview: list.overview,
+                                            //         rating: list.voteAverage);
+                                            //   },
+                                            // ),
                                           );
                                         },
                                       ),

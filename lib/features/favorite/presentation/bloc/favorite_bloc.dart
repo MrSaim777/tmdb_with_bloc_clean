@@ -10,6 +10,7 @@ part 'favorite_state.dart';
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   GetFavoriteMoviesUseCase getFavoriteMoviesUseCase;
   FavoriteToggleUseCase favoriteToggleUseCase;
+  List<FavoriteMoviesEntity> favoriteMoviesList = [];
 
   FavoriteBloc(
       {required this.getFavoriteMoviesUseCase,
@@ -17,18 +18,20 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       : super(FavoriteLoading()) {
     on<FavoriteEvent>(getFavoriteMovies);
     on<ToggleEvent>(toggleFavorite);
+    on<AddFavLoadingEvent>((event, emit) => emit(FavoriteLoading()));
   }
 
   Future<void> getFavoriteMovies(
       FavoriteEvent e, Emitter<FavoriteState> emit) async {
     if (e is LoadFavMoviesEvent) {
-      await getFavoriteMoviesUseCase(EmptyParams()).then((value) => emit(
-          value.fold(
-              (error) => FavoriteFailure(
-                    message: _mapFailureToMessage(error),
-                  ),
-              (favoriteMovies) =>
-                  FavoriteCompleted(favoriteMovies: favoriteMovies))));
+      await getFavoriteMoviesUseCase(EmptyParams())
+          .then((value) => emit(value.fold(
+                  (error) => FavoriteFailure(
+                        message: _mapFailureToMessage(error),
+                      ), (favoriteMovies) {
+                favoriteMoviesList = favoriteMovies;
+                return FavoriteCompleted(favoriteMovies: favoriteMovies);
+              })));
     }
   }
 
@@ -36,16 +39,19 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       FavoriteEvent event, Emitter<FavoriteState> emit) async {
     if (event is ToggleEvent) {
       emit(ToggleWaiting());
-      await favoriteToggleUseCase(FavoriteParams(
+      favoriteToggleUseCase(FavoriteParams(
               id: event.id,
               image: event.image,
               date: event.date,
               title: event.title,
               overview: event.overview,
               rating: event.rating))
-          .then((value) => emit(value.fold((l) => ToggleError(), (isFavorite) {
-                return ToggleCompleted(isFavorite: isFavorite);
-              })));
+          .then((value) {
+        emit.isDone;
+        emit(value.fold((l) => ToggleError(), (isFavorite) {
+          return ToggleCompleted(isFavorite: isFavorite);
+        }));
+      });
     }
   }
 

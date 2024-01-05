@@ -2,21 +2,24 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:tmdb_ui/core/utils/reusables/blur_container.dart';
 import 'package:tmdb_ui/core/utils/constants/constants.dart';
-import 'package:tmdb_ui/features/favorite/presentation/bloc/favorite_bloc.dart';
 
+// ignore: must_be_immutable
 class MovieCard extends StatelessWidget {
-  const MovieCard(
+  MovieCard(
       {super.key,
+      required this.isFav,
+      required this.onTapFavBtn,
       required this.id,
       required this.image,
       required this.releaseDate,
       required this.title,
       required this.overview,
       required this.rating});
+  final VoidCallback onTapFavBtn;
+  bool isFav;
   final int id;
   final String image;
   final String releaseDate;
@@ -107,35 +110,45 @@ class MovieCard extends StatelessWidget {
                               ),
                               onRatingUpdate: (rating) {},
                             ),
-                            BlocBuilder<FavoriteBloc, FavoriteState>(
-                              builder: (context, state) {
-                                context
-                                    .read<FavoriteBloc>()
-                                    .add(LoadFavMoviesEvent());
-                                if (state is FavoriteCompleted) {
-                                  return InkWell(
-                                    onTap: () => context
-                                        .read<FavoriteBloc>()
-                                        .add(ToggleEvent(
-                                            id: id,
-                                            image: image,
-                                            date: releaseDate,
-                                            title: title,
-                                            overview: overview,
-                                            rating: rating)),
-                                    child: Icon(
-                                      Icons.favorite,
-                                      color: state.favoriteMovies
-                                              .any((e) => e.id == id)
-                                          ? Colors.red
-                                          : Colors.white,
-                                    ),
-                                  );
-                                } else {
-                                  return const SizedBox.shrink();
-                                }
-                              },
-                            )
+                            InkWell(
+                              onTap: onTapFavBtn,
+                              child: Icon(
+                                Icons.favorite,
+                                color: isFav ? Colors.red : Colors.white,
+                              ),
+                            ),
+                            // BlocBuilder<FavoriteBloc, FavoriteState>(
+                            //   builder: (context, state) {
+                            //     context
+                            //         .read<FavoriteBloc>()
+                            //         .add(LoadFavMoviesEvent());
+                            //     if (state is FavoriteCompleted) {
+                            //       bool isFav = state.favoriteMovies
+                            //           .any((e) => e.id == id);
+                            //       return InkWell(
+                            //         onTap: () {
+                                      // context.read<FavoriteBloc>().add(
+                                      //     ToggleEvent(
+                                      //         id: id,
+                                      //         image: image,
+                                      //         date: releaseDate,
+                                      //         title: title,
+                                      //         overview: overview,
+                                      //         rating: rating));
+                            //         },
+                            //         child: Icon(
+                            //           Icons.favorite,
+                            //           color: isFav ? Colors.red : Colors.white,
+                            //         ),
+                            //       );
+                            //     } else {
+                            //       return const Icon(
+                            //         Icons.favorite,
+                            //         color: Colors.white,
+                            //       );
+                            //     }
+                            //   },
+                            // )
                           ],
                         )
                       ],

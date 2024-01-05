@@ -24,7 +24,7 @@ class FavoriteScreen extends StatelessWidget {
         body: Stack(
           children: [
             const BackgroundContainer(),
-            FadeInDown(
+            FadeInLeftBig(
               child: BlocBuilder<FavoriteBloc, FavoriteState>(
                 builder: (context, state) {
                   if (state is FavoriteLoading) {
@@ -60,13 +60,31 @@ class FavoriteScreen extends StatelessWidget {
                                     ApiParam.id: list.id.toString()
                                   });
                                 },
-                                child: MovieCard(
-                                    id: list.id,
-                                    image: list.image,
-                                    releaseDate: list.date,
-                                    title: list.title,
-                                    overview: list.overview,
-                                    rating: list.rating),
+                                child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                                  builder: (c, s) {
+                                    return MovieCard(
+                                        onTapFavBtn: () {
+                                          context
+                                              .read<FavoriteBloc>()
+                                              .add(LoadFavMoviesEvent());
+                                          context.read<FavoriteBloc>().add(
+                                              ToggleEvent(
+                                                  id: list.id,
+                                                  image: list.image,
+                                                  date: list.date,
+                                                  title: list.title,
+                                                  overview: list.overview,
+                                                  rating: list.rating));
+                                        },
+                                        isFav: true,
+                                        id: list.id,
+                                        image: list.image,
+                                        releaseDate: list.date,
+                                        title: list.title,
+                                        overview: list.overview,
+                                        rating: list.rating);
+                                  },
+                                ),
                               );
                             },
                           );

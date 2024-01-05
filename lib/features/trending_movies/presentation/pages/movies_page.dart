@@ -22,46 +22,73 @@ class TrendingMoviesScreen extends StatelessWidget {
       context.read<TrendingMoviesBloc>().add(const LoadTredingMovies(page: 1));
     }
     return Scaffold(
-      body: Center(
-        child: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
-          builder: (context, state) {
-            if (state is TrendingMoviesLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is TrendingMoviesError) {
-              return Center(
-                child: Text(
-                  state.message,
-                  style: commonTextStyle(),
-                ),
-              );
-            } else if (state is TrendingMoviesCompleted) {
-              return FadeInDownBig(
-                child: Stack(
-                  children: [
-                    const BackgroundContainer(),
-                    ListView.builder(
-                      padding: EdgeInsets.only(
-                          bottom: context.height / 10,
-                          top: context.height / 20),
-                      itemCount: state.movies.length,
-                      itemBuilder: (c, i) {
-                        DateFormat formatter = DateFormat('yyyy-MM-dd');
-                        String formattedDate = formatter.format(
-                            state.movies[i].knownFor[0].releaseDate ??
-                                DateTime.now());
-                        return GestureDetector(
-                          onTap: () {
-                            context.read<MovieDetailBloc>().add(LoadingEvent());
-                            context.goNamed(DETAIL, pathParameters: {
-                              ApiParam.id:
-                                  state.movies[i].knownFor[0].id.toString()
-                            });
-                          },
-                          child: BlocBuilder<FavoriteBloc, FavoriteState>(
-                            builder: (c, s) {
+      body: Stack(
+        children: [
+          const BackgroundContainer(),
+          BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
+            builder: (context, state) {
+              if (state is TrendingMoviesLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is TrendingMoviesError) {
+                return Center(
+                  child: Text(
+                    state.message,
+                    style: commonTextStyle(),
+                  ),
+                );
+              } else if (state is TrendingMoviesCompleted) {
+                return FadeInLeftBig(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                        bottom: context.height / 10, top: context.height / 20),
+                    itemCount: state.movies.length,
+                    itemBuilder: (c, i) {
+                      DateFormat formatter = DateFormat('yyyy-MM-dd');
+                      String formattedDate = formatter.format(
+                          state.movies[i].knownFor[0].releaseDate ??
+                              DateTime.now());
+                      return GestureDetector(
+                        onTap: () {
+                          context.read<MovieDetailBloc>().add(LoadingEvent());
+                          context.goNamed(DETAIL, pathParameters: {
+                            ApiParam.id:
+                                state.movies[i].knownFor[0].id.toString()
+                          });
+                        },
+                        child: BlocBuilder<FavoriteBloc, FavoriteState>(
+                          builder: (c, s) {
+                            context
+                                .read<FavoriteBloc>()
+                                .add(LoadFavMoviesEvent());
+                            final favMovies =
+                                context.read<FavoriteBloc>().favoriteMoviesList;
+                            bool isFav = favMovies.any(
+                                (e) => e.id == state.movies[i].knownFor[0].id);
+                            // if (s is FavoriteCompleted) {}
+                            if (s is ToggleCompleted) {
                               return MovieCard(
+                                onTapFavBtn: () => context
+                                    .read<FavoriteBloc>()
+                                    .add(ToggleEvent(
+                                        id: state.movies[i].knownFor[0].id,
+                                        image: BaseUrl
+                                                .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                            state.movies[i].knownFor[0]
+                                                .posterPath,
+                                        date: formattedDate,
+                                        title: state
+                                                .movies[i].knownFor[0].title ??
+                                            state.movies[i].knownFor[0].name ??
+                                            state.movies[i].knownFor[0]
+                                                .originalName!,
+                                        overview: state
+                                            .movies[i].knownFor[0].overview,
+                                        rating: state.movies[i].knownFor[0]
+                                                .voteAverage /
+                                            2)),
+                                isFav: s.isFavorite,
                                 id: state.movies[i].knownFor[0].id,
                                 image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
                                     state.movies[i].knownFor[0].posterPath,
@@ -73,19 +100,52 @@ class TrendingMoviesScreen extends StatelessWidget {
                                 rating:
                                     state.movies[i].knownFor[0].voteAverage / 2,
                               );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
+                            } else {
+                              return MovieCard(
+                                onTapFavBtn: () => context
+                                    .read<FavoriteBloc>()
+                                    .add(ToggleEvent(
+                                        id: state.movies[i].knownFor[0].id,
+                                        image: BaseUrl
+                                                .TRENDING_MOVIES_IMAGE_BASE_URL +
+                                            state.movies[i].knownFor[0]
+                                                .posterPath,
+                                        date: formattedDate,
+                                        title: state
+                                                .movies[i].knownFor[0].title ??
+                                            state.movies[i].knownFor[0].name ??
+                                            state.movies[i].knownFor[0]
+                                                .originalName!,
+                                        overview: state
+                                            .movies[i].knownFor[0].overview,
+                                        rating: state.movies[i].knownFor[0]
+                                                .voteAverage /
+                                            2)),
+                                isFav: isFav,
+                                id: state.movies[i].knownFor[0].id,
+                                image: BaseUrl.TRENDING_MOVIES_IMAGE_BASE_URL +
+                                    state.movies[i].knownFor[0].posterPath,
+                                releaseDate: formattedDate,
+                                title: state.movies[i].knownFor[0].title ??
+                                    state.movies[i].knownFor[0].name ??
+                                    state.movies[i].knownFor[0].originalName!,
+                                overview: state.movies[i].knownFor[0].overview,
+                                rating:
+                                    state.movies[i].knownFor[0].voteAverage / 2,
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
+        ],
       ),
     );
   }

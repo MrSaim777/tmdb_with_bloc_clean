@@ -9,6 +9,8 @@ abstract class FavoriteEvent extends Equatable {
 
 class LoadFavMoviesEvent extends FavoriteEvent {}
 
+class AddFavLoadingEvent extends FavoriteEvent{}
+
 class ToggleEvent extends FavoriteEvent {
   
   final int id;

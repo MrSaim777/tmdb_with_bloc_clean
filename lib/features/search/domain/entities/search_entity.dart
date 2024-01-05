@@ -37,7 +37,7 @@ class Result {
   int id;
   String overview;
   String posterPath;
-  DateTime releaseDate;
+  // DateTime releaseDate;
   String title;
   double voteAverage;
 
@@ -45,7 +45,7 @@ class Result {
     required this.id,
     required this.overview,
     required this.posterPath,
-    required this.releaseDate,
+    // required this.releaseDate,
     required this.title,
     required this.voteAverage,
   });
@@ -54,8 +54,9 @@ class Result {
         id: json["id"],
         overview: json["overview"] ?? "",
         posterPath: json["poster_path"] ?? "",
-        releaseDate: DateTime.parse(json["release_date"] ??
-            json[DateFormat('yyyy-MM-dd').format(DateTime.now())]),
+        // releaseDate: DateTime.parse(json["release_date"] ??
+            // json[DateFormat('yyyy-MM-dd').format(DateTime.now())]
+            // ),
         title: json["title"] ?? "",
         voteAverage: json["vote_average"]?.toDouble() ?? 0.0,
       );
@@ -64,8 +65,8 @@ class Result {
         "id": id,
         "overview": overview,
         "poster_path": posterPath,
-        "release_date":
-            "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
+        // "release_date":
+        //     "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
         "title": title,
         "vote_average": voteAverage,
       };
